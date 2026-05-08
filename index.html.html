@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Samyuktha | Developer Portfolio</title>
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+font-family:'Poppins',sans-serif;
+}
+
+:root{
+--bg:#0f172a;
+--card:#1e293b;
+--text:#ffffff;
+--primary:#38bdf8;
+--secondary:#94a3b8;
+}
+
+.light-mode{
+--bg:#f1f5f9;
+--card:#ffffff;
+--text:#0f172a;
+--primary:#0284c7;
+--secondary:#475569;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+transition:0.4s;
+overflow-x:hidden;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:var(--primary);
+border-radius:20px;
+}
+
+/* Navbar */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(15,23,42,0.8);
+backdrop-filter:blur(10px);
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:var(--primary);
+}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav ul li a{
+text-decoration:none;
+color:var(--text);
+font-weight:500;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:var(--primary);
+}
+
+.toggle-btn{
+font-size:22px;
+cursor:pointer;
+color:var(--primary);
+}
+
+/* Hero */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+position:relative;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+width:300px;
+height:300px;
+background:var(--primary);
+filter:blur(120px);
+opacity:0.3;
+z-index:-1;
+}
+
+.hero h1{
+font-size:65px;
+margin-bottom:10px;
+animation:fadeIn 1s ease;
+}
+
+.hero span{
+color:var(--primary);
+}
+
+.typing{
+font-size:28px;
+color:var(--secondary);
+margin-bottom:20px;
+height:40px;
+}
+
+.hero p{
+max-width:700px;
+line-height:1.8;
+color:var(--secondary);
+margin-bottom:30px;
+}
+
+.btn{
+display:inline-block;
+padding:14px 30px;
+background:var(--primary);
+color:#000;
+font-weight:600;
+border-radius:10px;
+text-decoration:none;
+transition:0.3s;
+margin:10px;
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+/* Sections */
+
+section{
+padding:100px 8%;
+}
+
+.title{
+text-align:center;
+font-size:40px;
+margin-bottom:50px;
+color:var(--primary);
+}
+
+/* About */
+
+.about-content{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:40px;
+align-items:center;
+}
+
+.about-img img{
+width:100%;
+border-radius:20px;
+box-shadow:0 0 25px rgba(56,189,248,0.3);
+}
+
+.about-text{
+line-height:1.9;
+color:var(--secondary);
+}
+
+/* Skills */
+
+.skills{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:25px;
+}
+
+.skill{
+background:var(--card);
+padding:30px;
+border-radius:15px;
+text-align:center;
+transition:0.4s;
+}
+
+.skill:hover{
+transform:translateY(-10px);
+}
+
+.skill i{
+font-size:40px;
+margin-bottom:15px;
+color:var(--primary);
+}
+
+/* Projects */
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+}
+
+.project-card{
+background:var(--card);
+border-radius:20px;
+overflow:hidden;
+transition:0.4s;
+}
+
+.project-card:hover{
+transform:translateY(-10px);
+}
+
+.project-card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.project-content{
+padding:20px;
+}
+
+.project-content h3{
+margin-bottom:10px;
+color:var(--primary);
+}
+
+.project-content p{
+color:var(--secondary);
+line-height:1.7;
+}
+
+/* Certificates */
+
+.certificates{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.certificate{
+background:var(--card);
+padding:30px;
+border-radius:15px;
+text-align:center;
+}
+
+/* Contact */
+
+.contact-form{
+max-width:700px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.contact-form input,
+.contact-form textarea{
+padding:15px;
+border:none;
+outline:none;
+border-radius:10px;
+background:var(--card);
+color:var(--text);
+}
+
+.contact-form button{
+border:none;
+cursor:pointer;
+}
+
+/* Footer */
+
+footer{
+text-align:center;
+padding:30px;
+background:var(--card);
+margin-top:50px;
+}
+
+/* Animation */
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.reveal{
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:42px;
+}
+
+.typing{
+font-size:22px;
+}
+
+nav ul{
+display:none;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+
+<nav>
+<div class="logo">Samyuktha.dev</div>
+
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#certificates">Certificates</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+<div class="toggle-btn" onclick="toggleMode()">
+<i class="fa-solid fa-moon"></i>
+</div>
+</nav>
+
+<!-- Hero -->
+
+<section class="hero">
+
+<h1>Hello, I'm <span>Samyuktha</span></h1>
+
+<div class="typing"></div>
+
+<p>
+Aspiring Software Developer and B.Sc Computer Science Student
+passionate about Web Development.
+</p>
+
+<div>
+<a href="Samyuktha_Resume.pdf" class="btn" download>
+Download Resume
+</a>
+
+<a href="#projects" class="btn">
+View Projects
+</a>
+</div>
+
+</section>
+
+<!-- About -->
+
+<section id="about" class="reveal">
+
+<h2 class="title">About Me</h2>
+
+<div class="about-content">
+
+<div class="about-img">
+<img src="4.jpeg" alt="">
+</div>
+
+<div class="about-text">
+
+<p>
+I am a motivated B.Sc Computer Science student graduating in 2026
+with knowledge in programming, problem-solving,
+and web technologies.
+</p>
+
+<br>
+
+<p>
+Technologies I work with:
+ HTML, CSS, JavaScript, and MySQL.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Skills -->
+
+<section id="skills" class="reveal">
+
+<h2 class="title">Skills</h2>
+
+<div class="skills">
+
+<div class="skill">
+<i class="fa-brands fa-html5"></i>
+<h3>HTML5</h3>
+</div>
+
+<div class="skill">
+<i class="fa-brands fa-css3-alt"></i>
+<h3>CSS3</h3>
+</div>
+
+<div class="skill">
+<i class="fa-brands fa-js"></i>
+<h3>JavaScript</h3>
+</div>
+
+<div class="skill">
+<i class="fa-brands fa-python"></i>
+<h3>Python</h3>
+</div>
+
+<div class="skill">
+<i class="fa-solid fa-database"></i>
+<h3>MySQL</h3>
+</div>
+
+</div>
+
+</section>
+
+<!-- Projects -->
+
+<section id="projects" class="reveal">
+
+<h2 class="title">Projects</h2>
+
+<div class="projects">
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1200" alt="">
+
+<div class="project-content">
+
+<h3>Food Recognition and Calorie Detection System</h3>
+
+<p>
+Developed a machine learning-based application to identify
+food items and estimate calorie values using image processing
+and classification techniques.
+</p>
+
+</div>
+
+</div>
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200" alt="">
+
+<div class="project-content">
+
+<h3>Portfolio Website</h3>
+
+<p>
+Modern animated responsive developer portfolio
+with dark/light mode.
+</p>
+
+</div>
+
+</div>
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200" alt="">
+
+<div class="project-content">
+
+<h3>Student Management System</h3>
+
+<p>
+CRUD-based management system with database integration
+for educational institutions.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Certificates -->
+
+<section id="certificates" class="reveal">
+
+<h2 class="title">Certificates</h2>
+
+<div class="certificates">
+
+<div class="certificate">
+<h3>Tata GenAI Powered Data Analytics</h3>
+<p>Completed Forage Virtual Experience Program</p>
+</div>
+
+<div class="certificate">
+<h3>MongoDB Basics</h3>
+<p>Completed MongoDB Basics for Students Course</p>
+</div>
+
+<div class="certificate">
+<h3>Office Automation Training</h3>
+<p>Completed Office Automation Certification</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- Contact -->
+
+<section id="contact" class="reveal">
+
+<h2 class="title">Contact Me</h2>
+
+<form class="contact-form">
+
+<input type="text" placeholder="Your Name">
+
+<input type="email" placeholder="Your Email">
+
+<textarea rows="6" placeholder="Your Message"></textarea>
+
+<button class="btn">Send Message</button>
+
+</form>
+
+<br><br>
+
+<div style="text-align:center; line-height:2;">
+
+<p><i class="fa-solid fa-envelope"></i> samyuktha.2005s@gmail.com</p>
+
+<p><i class="fa-solid fa-phone"></i> +91 8489489678</p>
+
+<p><i class="fa-solid fa-location-dot"></i> Sivakasi, Tamil Nadu</p>
+
+<p>
+<i class="fa-brands fa-linkedin"></i>
+<a href="https://www.linkedin.com/in/samyuktha-s-989483356"
+style="color:var(--primary);" target="_blank">
+LinkedIn Profile
+</a>
+</p>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 Samyuktha.dev | All Rights Reserved</p>
+
+</footer>
+
+<script>
+
+/* Dark Light Mode */
+
+function toggleMode(){
+document.body.classList.toggle("light-mode");
+}
+
+/* Typing Animation */
+
+const text = [
+"Software Developer",
+"Frontend Developer",
+"Python Programmer",
+"Computer Science Student"
+];
+
+let count = 0;
+let index = 0;
+let currentText = "";
+let letter = "";
+
+(function type(){
+
+if(count === text.length){
+count = 0;
+}
+
+currentText = text[count];
+letter = currentText.slice(0, ++index);
+
+document.querySelector(".typing").textContent = letter;
+
+if(letter.length === currentText.length){
+
+count++;
+index = 0;
+
+setTimeout(type, 1000);
+
+}else{
+setTimeout(type, 120);
+}
+
+})();
+
+/* Scroll Reveal */
+
+window.addEventListener("scroll", reveal);
+
+function reveal(){
+
+const reveals = document.querySelectorAll(".reveal");
+
+for(let i = 0; i < reveals.length; i++){
+
+const windowHeight = window.innerHeight;
+const revealTop = reveals[i].getBoundingClientRect().top;
+const revealPoint = 100;
+
+if(revealTop < windowHeight - revealPoint){
+reveals[i].classList.add("active");
+}
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
