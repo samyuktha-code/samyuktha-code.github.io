@@ -11,9 +11,9 @@ rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 />
 
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+<style>
 
 *{
 margin:0;
@@ -25,7 +25,7 @@ font-family:'Poppins',sans-serif;
 
 :root{
 --bg:#0f172a;
---card:#1e293b;
+--card:rgba(255,255,255,0.05);
 --text:#ffffff;
 --primary:#38bdf8;
 --secondary:#94a3b8;
@@ -40,10 +40,34 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:var(--bg);
+background:#020617;
 color:var(--text);
-transition:0.4s;
 overflow-x:hidden;
+transition:0.4s;
+position:relative;
+}
+
+/* Animated Grid Background */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+background-size:50px 50px;
+animation:gridMove 15s linear infinite;
+z-index:-3;
+}
+
+@keyframes gridMove{
+0%{
+transform:translateY(0px);
+}
+100%{
+transform:translateY(50px);
+}
 }
 
 /* Scrollbar */
@@ -57,6 +81,18 @@ background:var(--primary);
 border-radius:20px;
 }
 
+/* Progress Bar */
+
+#progress-bar{
+position:fixed;
+top:0;
+left:0;
+height:4px;
+background:var(--primary);
+width:0%;
+z-index:9999;
+}
+
 /* Navbar */
 
 nav{
@@ -67,8 +103,8 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:rgba(15,23,42,0.8);
-backdrop-filter:blur(10px);
+background:rgba(15,23,42,0.7);
+backdrop-filter:blur(12px);
 z-index:1000;
 }
 
@@ -91,7 +127,8 @@ font-weight:500;
 transition:0.3s;
 }
 
-nav ul li a:hover{
+nav ul li a:hover,
+nav ul li a.active{
 color:var(--primary);
 }
 
@@ -106,12 +143,13 @@ color:var(--primary);
 .hero{
 height:100vh;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 flex-direction:column;
 text-align:center;
 padding:20px;
 position:relative;
+animation:floatHero 4s ease-in-out infinite;
 }
 
 .hero::before{
@@ -126,13 +164,48 @@ z-index:-1;
 }
 
 .hero h1{
-font-size:65px;
-margin-bottom:10px;
-animation:fadeIn 1s ease;
+font-size:85px;
+font-weight:700;
+background:linear-gradient(to right,#38bdf8,#8b5cf6,#ec4899);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 30px rgba(56,189,248,0.5);
+animation:glowText 3s infinite alternate;
 }
 
-.hero span{
-color:var(--primary);
+@keyframes glowText{
+0%{
+filter:drop-shadow(0 0 10px #38bdf8);
+}
+100%{
+filter:drop-shadow(0 0 25px #8b5cf6);
+}
+}
+.ring{
+position:absolute;
+width:500px;
+height:500px;
+border:2px solid rgba(56,189,248,0.2);
+border-radius:50%;
+animation:rotateRing 20s linear infinite;
+z-index:-1;
+}
+
+.ring::before{
+content:"";
+position:absolute;
+inset:20px;
+border:2px dashed rgba(139,92,246,0.3);
+border-radius:50%;
+}
+
+@keyframes rotateRing{
+0%{
+transform:rotate(0deg);
+}
+100%{
+transform:rotate(360deg);
+}
 }
 
 .typing{
@@ -149,31 +222,62 @@ color:var(--secondary);
 margin-bottom:30px;
 }
 
+/* Hero Animation */
+
+@keyframes floatHero{
+0%{
+transform:translateY(0px);
+}
+50%{
+transform:translateY(-10px);
+}
+100%{
+transform:translateY(0px);
+}
+}
+
+/* Buttons */
+
 .btn{
 display:inline-block;
-padding:14px 30px;
-background:var(--primary);
-color:#000;
+padding:14px 32px;
+background:linear-gradient(135deg,#38bdf8,#818cf8);
+color:#fff;
 font-weight:600;
-border-radius:10px;
+border-radius:12px;
 text-decoration:none;
-transition:0.3s;
+transition:0.4s;
 margin:10px;
+border:none;
+cursor:pointer;
 }
 
 .btn:hover{
-transform:translateY(-5px);
+transform:translateY(-5px) scale(1.05);
+box-shadow:0 0 20px rgba(56,189,248,0.5);
 }
 
 /* Sections */
 
 section{
 padding:100px 8%;
+position:relative;
+}
+
+section::after{
+content:"";
+position:absolute;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:120px;
+height:2px;
+background:linear-gradient(to right,transparent,#38bdf8,transparent);
 }
 
 .title{
 text-align:center;
-font-size:40px;
+font-size:42px;
 margin-bottom:50px;
 color:var(--primary);
 }
@@ -197,50 +301,182 @@ box-shadow:0 0 25px rgba(56,189,248,0.3);
 line-height:1.9;
 color:var(--secondary);
 }
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:transparent;
+z-index:-5;
+}
+
+.stars::before,
+.stars::after{
+content:"";
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+box-shadow:
+100px 200px white,
+300px 400px white,
+500px 100px white,
+700px 300px white,
+900px 500px white,
+1100px 200px white,
+1300px 400px white;
+animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+0%{
+opacity:0.2;
+}
+100%{
+opacity:1;
+}
+}
 
 /* Skills */
+.skill{
+position:relative;
+overflow:hidden;
+}
 
+.skill::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(
+45deg,
+transparent,
+rgba(56,189,248,0.15),
+transparent
+);
+top:-50%;
+left:-50%;
+animation:skillGlow 6s linear infinite;
+}
+
+@keyframes skillGlow{
+0%{
+transform:rotate(0deg);
+}
+100%{
+transform:rotate(360deg);
+}
+}
 .skills{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:25px;
 }
 
 .skill{
-background:var(--card);
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.1);
 padding:30px;
-border-radius:15px;
+border-radius:20px;
 text-align:center;
 transition:0.4s;
+box-shadow:0 8px 32px rgba(0,0,0,0.3);
 }
 
 .skill:hover{
 transform:translateY(-10px);
+box-shadow:0 0 25px rgba(56,189,248,0.5);
 }
 
 .skill i{
-font-size:40px;
+font-size:42px;
 margin-bottom:15px;
 color:var(--primary);
+}
+
+.progress{
+width:100%;
+height:8px;
+background:#334155;
+border-radius:20px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+background:linear-gradient(to right,#38bdf8,#818cf8);
+border-radius:20px;
+}
+
+.html{
+width:95%;
+}
+
+.css{
+width:90%;
+}
+
+.js{
+width:80%;
+}
+
+.python{
+width:85%;
+}
+
+.mysql{
+width:75%;
 }
 
 /* Projects */
 
 .projects{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:30px;
 }
 
 .project-card{
-background:var(--card);
-border-radius:20px;
+position:relative;
 overflow:hidden;
-transition:0.4s;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:20px;
+transition:0.5s;
+}
+
+.project-card::before{
+content:"";
+position:absolute;
+top:-100%;
+left:-100%;
+width:300%;
+height:300%;
+background:linear-gradient(
+45deg,
+transparent,
+rgba(255,255,255,0.1),
+transparent
+);
+transform:rotate(25deg);
+transition:0.7s;
+}
+
+.project-card:hover::before{
+left:100%;
+top:100%;
+}
+
+.project-card:hover{
+transform:translateY(-15px) scale(1.02);
+box-shadow:0 0 40px rgba(56,189,248,0.3);
 }
 
 .project-card:hover{
 transform:translateY(-10px);
+box-shadow:0 0 25px rgba(56,189,248,0.5);
 }
 
 .project-card img{
@@ -272,10 +508,18 @@ gap:25px;
 }
 
 .certificate{
-background:var(--card);
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.1);
 padding:30px;
-border-radius:15px;
+border-radius:20px;
 text-align:center;
+transition:0.4s;
+}
+
+.certificate:hover{
+transform:translateY(-10px);
+box-shadow:0 0 25px rgba(56,189,248,0.5);
 }
 
 /* Contact */
@@ -294,13 +538,9 @@ padding:15px;
 border:none;
 outline:none;
 border-radius:10px;
-background:var(--card);
+background:rgba(255,255,255,0.05);
 color:var(--text);
-}
-
-.contact-form button{
-border:none;
-cursor:pointer;
+backdrop-filter:blur(10px);
 }
 
 /* Footer */
@@ -308,22 +548,11 @@ cursor:pointer;
 footer{
 text-align:center;
 padding:30px;
-background:var(--card);
+background:rgba(255,255,255,0.05);
 margin-top:50px;
 }
 
-/* Animation */
-
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(30px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
+/* Reveal Animation */
 
 .reveal{
 opacity:0;
@@ -336,6 +565,131 @@ opacity:1;
 transform:translateY(0);
 }
 
+/* Fade Animation */
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* Social Icons */
+
+.socials{
+position:fixed;
+left:20px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+flex-direction:column;
+gap:20px;
+z-index:1000;
+}
+
+.socials a{
+color:var(--primary);
+font-size:22px;
+transition:0.3s;
+}
+
+.socials a:hover{
+transform:scale(1.3);
+}
+.blob{
+position:fixed;
+border-radius:50%;
+filter:blur(100px);
+z-index:-2;
+animation:floatBlob 12s infinite ease-in-out;
+}
+
+.blob1{
+width:350px;
+height:350px;
+background:#38bdf8;
+top:-100px;
+left:-100px;
+}
+
+.blob2{
+width:300px;
+height:300px;
+background:#8b5cf6;
+bottom:-100px;
+right:-100px;
+animation-delay:3s;
+}
+
+.blob3{
+width:250px;
+height:250px;
+background:#06b6d4;
+top:50%;
+left:50%;
+animation-delay:6s;
+}
+
+@keyframes floatBlob{
+0%{
+transform:translate(0,0) scale(1);
+}
+50%{
+transform:translate(40px,-40px) scale(1.1);
+}
+100%{
+transform:translate(0,0) scale(1);
+}
+}
+#particles{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+z-index:-1;
+overflow:hidden;
+}
+
+.particle{
+position:absolute;
+width:4px;
+height:4px;
+background:#38bdf8;
+border-radius:50%;
+animation:particleMove linear infinite;
+opacity:0.6;
+}
+
+@keyframes particleMove{
+0%{
+transform:translateY(100vh) scale(0);
+}
+100%{
+transform:translateY(-10vh) scale(1);
+}
+}
+
+/* Cursor */
+
+.cursor{
+width:20px;
+height:20px;
+border:2px solid var(--primary);
+border-radius:50%;
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
+transition:0.1s;
+z-index:9999;
+}
+
+/* Responsive */
+
 @media(max-width:768px){
 
 .hero h1{
@@ -346,7 +700,22 @@ font-size:42px;
 font-size:22px;
 }
 
-nav ul{
+nav{
+position:fixed;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(2,6,23,0.6);
+backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(255,255,255,0.1);
+box-shadow:0 0 20px rgba(56,189,248,0.1);
+z-index:1000;
+}
+
+.socials{
 display:none;
 }
 
@@ -356,10 +725,39 @@ display:none;
 </head>
 
 <body>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+<div id="particles"></div>
+<div class="ring"></div>
+<div class="aurora"></div>
+<div class="stars"></div>
+<div id="progress-bar"></div>
+
+<div class="cursor"></div>
+
+<!-- Social Icons -->
+
+<div class="socials">
+
+<a href="https://github.com/" target="_blank">
+<i class="fab fa-github"></i>
+</a>
+
+<a href="https://www.linkedin.com/in/samyuktha-s-989483356" target="_blank">
+<i class="fab fa-linkedin"></i>
+</a>
+
+<a href="mailto:samyuktha.2005s@gmail.com">
+<i class="fas fa-envelope"></i>
+</a>
+
+</div>
 
 <!-- Navbar -->
 
 <nav>
+
 <div class="logo">Samyuktha.dev</div>
 
 <ul>
@@ -373,22 +771,23 @@ display:none;
 <div class="toggle-btn" onclick="toggleMode()">
 <i class="fa-solid fa-moon"></i>
 </div>
+
 </nav>
 
 <!-- Hero -->
 
 <section class="hero">
 
-<h1>Hello, I'm <span>Samyuktha</span></h1>
+<h1>Hello, I'm Samyuktha</h1>
 
 <div class="typing"></div>
 
 <p>
-Aspiring Software Developer and B.Sc Computer Science Student
-passionate about Web Development.
+Aspiring Software Developer and B.Sc Computer Science Student passionate about Web Development and modern technologies.
 </p>
 
 <div>
+
 <a href="samyuktha resume.docx" class="btn" download>
 Download Resume
 </a>
@@ -396,6 +795,7 @@ Download Resume
 <a href="#projects" class="btn">
 View Projects
 </a>
+
 </div>
 
 </section>
@@ -415,16 +815,20 @@ View Projects
 <div class="about-text">
 
 <p>
-I am a motivated B.Sc Computer Science student graduating in 2026
-with knowledge in programming, problem-solving,
-and web technologies.
+I am a passionate B.Sc Computer Science student graduating in 2026 with strong interest in software development, UI design, and web technologies.
+</p>
+
+<br>
+
+<p>
+I enjoy building responsive websites, solving programming problems, and learning modern technologies.
 </p>
 
 <br>
 
 <p>
 Technologies I work with:
- HTML, CSS, JavaScript, and MySQL.
+HTML, CSS, JavaScript, Python, and MySQL.
 </p>
 
 </div>
@@ -444,26 +848,51 @@ Technologies I work with:
 <div class="skill">
 <i class="fa-brands fa-html5"></i>
 <h3>HTML5</h3>
+
+<div class="progress">
+<div class="progress-bar html"></div>
+</div>
+
 </div>
 
 <div class="skill">
 <i class="fa-brands fa-css3-alt"></i>
 <h3>CSS3</h3>
+
+<div class="progress">
+<div class="progress-bar css"></div>
+</div>
+
 </div>
 
 <div class="skill">
 <i class="fa-brands fa-js"></i>
 <h3>JavaScript</h3>
+
+<div class="progress">
+<div class="progress-bar js"></div>
+</div>
+
 </div>
 
 <div class="skill">
 <i class="fa-brands fa-python"></i>
 <h3>Python</h3>
+
+<div class="progress">
+<div class="progress-bar python"></div>
+</div>
+
 </div>
 
 <div class="skill">
 <i class="fa-solid fa-database"></i>
 <h3>MySQL</h3>
+
+<div class="progress">
+<div class="progress-bar mysql"></div>
+</div>
+
 </div>
 
 </div>
@@ -484,13 +913,17 @@ Technologies I work with:
 
 <div class="project-content">
 
-<h3>Food Recognition and Calorie Detection System</h3>
+<h3>Food Recognition and Calorie Detection</h3>
 
 <p>
-Developed a machine learning-based application to identify
-food items and estimate calorie values using image processing
-and classification techniques.
+Machine learning-based application to identify food items and estimate calorie values using image processing techniques.
 </p>
+
+<br>
+
+<a href="#" class="btn">Live Demo</a>
+
+<a href="#" class="btn">GitHub</a>
 
 </div>
 
@@ -505,9 +938,14 @@ and classification techniques.
 <h3>Portfolio Website</h3>
 
 <p>
-Modern animated responsive developer portfolio
-with dark/light mode.
+Modern responsive developer portfolio with animations, dark mode, and glassmorphism UI.
 </p>
+
+<br>
+
+<a href="#" class="btn">Live Demo</a>
+
+<a href="#" class="btn">GitHub</a>
 
 </div>
 
@@ -522,9 +960,14 @@ with dark/light mode.
 <h3>Student Management System</h3>
 
 <p>
-CRUD-based management system with database integration
-for educational institutions.
+CRUD-based student management system with database integration for educational institutions.
 </p>
+
+<br>
+
+<a href="#" class="btn">Live Demo</a>
+
+<a href="#" class="btn">GitHub</a>
 
 </div>
 
@@ -583,23 +1026,41 @@ for educational institutions.
 
 <div style="text-align:center; line-height:2;">
 
-<p><i class="fa-solid fa-envelope"></i> samyuktha.2005s@gmail.com</p>
-
-<p><i class="fa-solid fa-phone"></i> +91 8489489678</p>
-
-<p><i class="fa-solid fa-location-dot"></i> Sivakasi, Tamil Nadu</p>
+<p>
+<i class="fa-solid fa-envelope"></i>
+samyuktha.2005s@gmail.com
+</p>
 
 <p>
+<i class="fa-solid fa-phone"></i>
++91 8489489678
+</p>
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Sivakasi, Tamil Nadu
+</p>
+
+<p>
+
 <i class="fa-brands fa-linkedin"></i>
-<a href="https://www.linkedin.com/in/samyuktha-s-989483356"
-style="color:var(--primary);" target="_blank">
+
+<a
+href="https://www.linkedin.com/in/samyuktha-s-989483356"
+style="color:var(--primary);"
+target="_blank">
+
 LinkedIn Profile
+
 </a>
+
 </p>
 
 </div>
 
 </section>
+
+<!-- Footer -->
 
 <footer>
 
@@ -653,7 +1114,7 @@ setTimeout(type, 120);
 
 })();
 
-/* Scroll Reveal */
+/* Reveal Animation */
 
 window.addEventListener("scroll", reveal);
 
@@ -674,6 +1135,100 @@ reveals[i].classList.add("active");
 }
 
 }
+const particles = document.getElementById("particles");
+
+for(let i = 0; i < 60; i++){
+
+const particle = document.createElement("div");
+particle.classList.add("particle");
+
+particle.style.left = Math.random() * 100 + "%";
+particle.style.animationDuration = (Math.random() * 10 + 5) + "s";
+particle.style.animationDelay = Math.random() * 5 + "s";
+particle.style.opacity = Math.random();
+
+particles.appendChild(particle);
+
+}
+const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach(button => {
+
+button.addEventListener('mousemove', e => {
+
+const rect = button.getBoundingClientRect();
+const x = e.clientX - rect.left - rect.width / 2;
+const y = e.clientY - rect.top - rect.height / 2;
+
+button.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+
+});
+
+button.addEventListener('mouseleave', () => {
+button.style.transform = 'translate(0,0)';
+});
+
+});
+/* Cursor */
+
+const cursor = document.querySelector(".cursor");
+
+document.addEventListener("mousemove",(e)=>{
+
+cursor.style.left = e.clientX + "px";
+cursor.style.top = e.clientY + "px";
+
+});
+
+/* Navbar Active */
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll("nav ul li a");
+
+window.addEventListener("scroll",()=>{
+
+let current = "";
+
+sections.forEach(section=>{
+
+const sectionTop = section.offsetTop;
+
+if(pageYOffset >= sectionTop - 200){
+current = section.getAttribute("id");
+}
+
+});
+
+navLinks.forEach(a=>{
+
+a.classList.remove("active");
+
+if(a.getAttribute("href").includes(current)){
+a.classList.add("active");
+}
+
+});
+
+});
+
+/* Scroll Progress */
+
+window.onscroll = function(){
+
+let winScroll =
+document.body.scrollTop ||
+document.documentElement.scrollTop;
+
+let height =
+document.documentElement.scrollHeight -
+document.documentElement.clientHeight;
+
+let scrolled = (winScroll / height) * 100;
+
+document.getElementById("progress-bar").style.width =
+scrolled + "%";
+
+};
 
 </script>
 
